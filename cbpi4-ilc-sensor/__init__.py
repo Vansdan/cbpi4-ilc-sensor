@@ -65,3 +65,4 @@ def setup(cbpi):
     :return: 
     '''
     cbpi.plugin.register("ILC Sensor", ILCSensor)
+    pass
