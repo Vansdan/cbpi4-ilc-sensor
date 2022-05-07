@@ -25,11 +25,11 @@ Make sure to extend CBPiSensor
              Property.Select(label="Param3", options=[1,2,4]), 
              Property.Sensor(label="Param4"), 
              Property.Actor(label="Param5")])
-class ILCSensor(CBPiSensor):
+class CustomSensor(CBPiSensor):
     
     def __init__(self, cbpi, id, props):
     
-        super(ILCSensor, self).__init__(cbpi, id, props)
+        super(CustomSensor, self).__init__(cbpi, id, props)
         self.value = 0
 
     
@@ -64,5 +64,5 @@ def setup(cbpi):
     :param cbpi: the cbpi core 
     :return: 
     '''
-    cbpi.plugin.register("ILC Sensor", ILCSensor)
+    cbpi.plugin.register("ILC Sensor", CustomSensor)
     pass
