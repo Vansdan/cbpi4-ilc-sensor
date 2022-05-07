@@ -6,9 +6,19 @@ import random
 from aiohttp import web
 from cbpi.api import *
 
+import requests
+from requests.auth import HTTPBasicAuth
+import time
+
+logger = logging.getLogger(__name__)
+
+
 '''
 Make sure to extend CBPiSensor
 '''
+
+
+
 
 @parameters([Property.Number(label="Param1", configurable=True), 
              Property.Text(label="Param2", configurable=True, default_value="HALLO"), 
