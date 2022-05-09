@@ -14,18 +14,10 @@ import time
 logger = logging.getLogger(__name__)
 
 
-'''
-Make sure to extend CBPiSensor
-'''
-
-
-
-
 @parameters([Property.Text(label="IP_ILC", configurable=True, default_value="192.168.1.152"), 
              Property.Text(label="Variable_ILC", configurable=True, default_value="ANALOG_KG.WP_DS")
-             #Property.Select(label="Param3", options=[1,2,4]), 
-             #Property.Sensor(label="Param4"), 
-             #Property.Actor(label="Param5")])
+            ])
+
 
    class CustomSensor(CBPiSensor):
     
@@ -37,16 +29,14 @@ Make sure to extend CBPiSensor
     
     @action(key="Test", parameters=[])
     async def action1(self, **kwargs):
-        '''
-        A custom action. Which can be called from the user interface
-        '''
-        print("ACTION!", kwargs)
+     
+    self.ip_ilc = self.props.get("IP_ILC")
+    self.variable_ilc = self.props.get("Variable_ILC") 
+      
+      print("ACTION!", kwargs)
 
     async def run(self):
-        '''
-        This method is executed asynchronousely 
-        In this example the code is executed every second
-        '''
+
         while self.running is True:
             self.value = random.randint(0,50)
             self.push_update(self.value)
@@ -58,13 +48,5 @@ Make sure to extend CBPiSensor
 
 
 def setup(cbpi):
-
-    '''
-    This method is called by the server during startup 
-    Here you need to register your plugins at the server
-    
-    :param cbpi: the cbpi core 
-    :return: 
-    '''
     cbpi.plugin.register("ILC Sensor", CustomSensor)
     pass
