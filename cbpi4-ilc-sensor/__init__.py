@@ -14,7 +14,14 @@ import time
 logger = logging.getLogger(__name__)
 
 
-@parameters([])
+@parameters([
+
+    Property.Text(label="IP ILC", configurable=True, description="IP Adress of ILC SPS (example: 192.168.1.150)"),
+    Property.Text(label="Sensor Variable", configurable=True, description="Sensor Variable in SPS (example: SENSORS.SENSOR1"),
+    Property.Number(label="Continuous Interval", configurable=True, description="Refresh interval in seconds used in continuous mode")
+
+
+])
 class CustomSensor(CBPiSensor):
     
     def __init__(self, cbpi, id, props):
