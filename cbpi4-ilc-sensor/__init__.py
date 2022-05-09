@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
     Property.Text(label="IP ILC", configurable=True, description="IP Adress of ILC SPS (example: 192.168.1.150)", default_value="192.168.1.152"),
     Property.Text(label="Sensor Variable", configurable=True, description="Sensor Variable in SPS (example: SENSORS.SENSOR1", default_value="ANALOG_KG.WP_DS"),
-    Property.Number(label="Continuous Interval", configurable=True, description="Refresh interval in seconds used in continuous mode")
+    #Property.Number(label="Continuous Interval", configurable=True, description="Refresh interval in seconds used in continuous mode")
 
 
 ])
@@ -38,7 +38,14 @@ class CustomSensor(CBPiSensor):
             ip_ilc = self.props.get("IP ILC")
             variable_ilc = self.props.get("Sensor Variable")            
             url = "http://" + ip_ilc + "/cgi-bin/readVal.exe?" + variable_ilc
+            
+            #try:
+            #r = requests.get(url, timeout=2,4)))
             r = requests.get(url)
+            #print(r.status_code)
+            #r.close()
+            #except requests.ConnectTimeout()
+            #print('Timed Out!)
             
             #self.value = random.randint(0,50)
             self.value = r.text
