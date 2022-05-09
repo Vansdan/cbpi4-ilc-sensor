@@ -21,12 +21,13 @@ Make sure to extend CBPiSensor
 
 
 
-@parameters([Property.Number(label="Param1", configurable=True), 
-             Property.Text(label="Param2", configurable=True, default_value="HALLO"), 
-             Property.Select(label="Param3", options=[1,2,4]), 
-             Property.Sensor(label="Param4"), 
-             Property.Actor(label="Param5")])
-class CustomSensor(CBPiSensor):
+@parameters([Property.Text(label="IP_ILC", configurable=True, default_value="192.168.1.152"), 
+             Property.Text(label="Variable_ILC", configurable=True, default_value="ANALOG_KG.WP_DS")
+             #Property.Select(label="Param3", options=[1,2,4]), 
+             #Property.Sensor(label="Param4"), 
+             #Property.Actor(label="Param5")])
+
+   class CustomSensor(CBPiSensor):
     
     def __init__(self, cbpi, id, props):
     
