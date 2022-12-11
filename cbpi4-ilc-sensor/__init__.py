@@ -27,6 +27,12 @@ class ILCSensor(CBPiSensor):
     def __init__(self, cbpi, id, props):
         super(ILCSensor, self).__init__(cbpi, id, props)
         self.value = 0
+        self.ip_ilc = self.props.get("IP ILC")
+        self.variable_ilc = self.props.get("Sensor Variable")
+        self.log_data(self.value)
+        self.request_session = requests.Session()
+        
+        #http://192.168.1.152/cgi-bin/readVal.exe?variable_ilc
 
     @action(key="Test", parameters=[])
     async def action1(self, **kwargs):
@@ -34,21 +40,10 @@ class ILCSensor(CBPiSensor):
 
     async def run(self):
         while self.running is True:
-            
-            ip_ilc = self.props.get("IP ILC")
-            variable_ilc = self.props.get("Sensor Variable")            
-            url = "http://" + ip_ilc + "/cgi-bin/readVal.exe?" + variable_ilc
-            
-            #try:
-            #r = requests.get(url, timeout=2,4)))
-            r = requests.get(url)
-            #print(r.status_code)
-            #r.close()
-            #except requests.ConnectTimeout()
-            #print('Timed Out!)
-            
-            #self.value = random.randint(0,50)
-            self.value = r.text
+
+            self.url_read = "http://" + self.ip_ilc + "/cgi-bin/readVal.exe?" + self.variable_ilc
+            await response = self.request_session.get(url_read)
+            self.value = response.text
             self.push_update(self.value)
             await asyncio.sleep(5)
     
