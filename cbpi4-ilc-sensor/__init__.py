@@ -31,6 +31,8 @@ class ILCSensor(CBPiSensor):
         self.variable_ilc = self.props.get("Sensor Variable")
         self.log_data(self.value)
         self.request_session = requests.Session()
+        self.url = ""
+        self.url_read = "http://" + self.ip_ilc + "/cgi-bin/readVal.exe?"
         
         #http://192.168.1.152/cgi-bin/readVal.exe?variable_ilc
 
@@ -38,6 +40,20 @@ class ILCSensor(CBPiSensor):
     async def action1(self, **kwargs):
         print("ACTION!", kwargs)
 
+#Funktion starte Request---------------------------------------------------------------------------------------
+    
+    async def start_request(self, variable_ilc):
+
+        url = self.url_read + variable_ilc
+
+        logger.info("ILCSendData type=request_start url=\"%s\"" % (url))
+
+        response = self.request_session.get(url)
+        
+        logger.info("ILCSendData type=request_done url=\"%s\" http_statuscode=%s response_text=\"%s\"" % (url, response.status_code, response.text.replace('"', '\\"')))
+    
+    
+    
     async def run(self):
         while self.running is True:
 
