@@ -22,10 +22,10 @@ logger = logging.getLogger(__name__)
 
 
 ])
-class CustomSensor(CBPiSensor):
+class ILCSensor(CBPiSensor):
     
     def __init__(self, cbpi, id, props):
-        super(CustomSensor, self).__init__(cbpi, id, props)
+        super(ILCSensor, self).__init__(cbpi, id, props)
         self.value = 0
 
     @action(key="Test", parameters=[])
@@ -57,5 +57,5 @@ class CustomSensor(CBPiSensor):
 
 
 def setup(cbpi):
-    cbpi.plugin.register("ILC Sensor", CustomSensor)
+    cbpi.plugin.register("ILC Sensor", ILCSensor)
     pass
