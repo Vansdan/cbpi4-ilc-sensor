@@ -42,26 +42,29 @@ class ILCSensor(CBPiSensor):
 
 #Funktion starte Request---------------------------------------------------------------------------------------
     
-    async def start_request(self, variable_ilc):
+    async def start_request(self, variableilc):
 
-        url = self.url_read + variable_ilc
+        url = self.url_read + variableilc
 
-        logger.info("ILCSendData type=request_start url=\"%s\"" % (url))
+        logger.info("ILCReadData type=request_start url=\"%s\"" % (url))
 
         response = self.request_session.get(url)
         
-        logger.info("ILCSendData type=request_done url=\"%s\" http_statuscode=%s response_text=\"%s\"" % (url, response.status_code, response.text.replace('"', '\\"')))
+        logger.info("ILCReadData type=request_done url=\"%s\" http_statuscode=%s response_text=\"%s\"" % (url, response.status_code, response.text.replace('"', '\\"')))
     
     
     
     async def run(self):
         while self.running is True:
-
-            self.url_read = "http://" + self.ip_ilc + "/cgi-bin/readVal.exe?" + self.variable_ilc
-            await response = self.request_session.get(url_read)
-            self.value = response.text
-            self.push_update(self.value)
-            await asyncio.sleep(5)
+            try:
+                url = self.url_read + self.variable_ilc
+                #await self.start_request(str(variable_ilc)) 
+                await response = self.request_session.get(url)
+                self.value = float(response.text)
+                self.push_update(self.value)
+            except Exception as e:
+                pass
+            await asyncio.sleep(2)
     
     def get_state(self):
         return dict(value=self.value)
