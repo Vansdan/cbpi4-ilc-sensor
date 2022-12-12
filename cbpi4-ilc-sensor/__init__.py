@@ -59,7 +59,7 @@ class ILCSensor(CBPiSensor):
             try:
                 url = self.url_read + self.variable_ilc
                 #await self.start_request(str(variable_ilc)) 
-                await response = self.request_session.get(url)
+                response = self.request_session.get(url)
                 self.value = float(response.text)
                 self.push_update(self.value)
             except Exception as e:
